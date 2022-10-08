@@ -1,5 +1,6 @@
 from ast import main
 import numpy as np
+import matplotlib.pyplot as plt
 
 # дискретное преобразование Фурье
 def DFT(x):
@@ -9,6 +10,19 @@ def DFT(x):
     M = np.exp(-2j * np.pi * k * n / N)
     return np.dot(M, x)
 
-if __name__ == '__main__':
-    x = np.array([1, 2, 3, 4, 5, 6, 7, 8])
-    print(DFT(x))
+# считать точки из файла из одной линии с разделителем пробел 
+def readPointsFromFile(filename):
+    with open(filename, 'r') as f:
+        points = f.read().split(' ')
+        points = [float(i) for i in points]
+        return points
+
+if __name__ == '__main__':   
+    y1 = readPointsFromFile('f1.txt')
+    y2 = DFT(y1)
+    x = np.arange(len(y1))
+    plt.plot(x, y1, 'r', 'points')
+    plt.show()
+    plt.plot(x, y2, 'b', 'DFT(points)')
+    plt.show()
+
